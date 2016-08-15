@@ -64,6 +64,7 @@ public final class AnimatedMessageView extends FrameLayout {
         this.messageTextView.setTextColor(messageTextColor);
         this.messageTextView.setTextSize(messageTextSize);
         this.messageTextView.setText(message);
+        this.messageTextView.setPadding(0, 0, (int) iconPadding, 0);
     }
 
     private void parseAttributes(final AttributeSet attrs, final int defStyleAttrs) {
@@ -84,13 +85,14 @@ public final class AnimatedMessageView extends FrameLayout {
 
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
-        // TODO - is here something needed ?
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        final int smallerSize = Math.min(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.getSize(heightMeasureSpec));
+        final int optimalWidth = getPaddingLeft() + circleIconView.getWidth() + messageTextView.getWidth() + getPaddingRight();
+        final int optimalHeight = getPaddingTop() + Math.max(circleIconView.getHeight(), messageTextView.getHeight()) + getPaddingBottom();
 
-        final int width = resolveSizeForMeasurement(widthMeasureSpec, smallerSize);
-        final int height = resolveSizeForMeasurement(heightMeasureSpec, smallerSize);
+        // TODO - height measuring has to be fixed
+        final int width = resolveSizeForMeasurement(widthMeasureSpec, optimalWidth);
+        final int height = resolveSizeForMeasurement(heightMeasureSpec, optimalHeight);
 
         setMeasuredDimension(width, height);
     }
