@@ -54,7 +54,7 @@ public final class AnimatedMessageView extends FrameLayout {
 
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
-        // TODO - do something with this
+        // TODO - is here something needed ?
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         final int smallerSize = Math.min(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.getSize(heightMeasureSpec));
@@ -85,7 +85,7 @@ public final class AnimatedMessageView extends FrameLayout {
 
     @Override
     protected void dispatchDraw(final Canvas canvas) {
-        choreographer.onDraw(canvas);
+        choreographer.draw(canvas);
         super.dispatchDraw(canvas);
     }
 

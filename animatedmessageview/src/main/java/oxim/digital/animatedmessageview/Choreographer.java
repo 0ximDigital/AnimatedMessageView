@@ -24,7 +24,7 @@ public abstract class Choreographer {
 
     protected abstract void hide();
 
-    protected abstract void onDraw(final Canvas canvas);
+    protected abstract void draw(final Canvas canvas);
 
     protected abstract void onSizeChanged(final int newWidth, final int newHeight, final int oldWidth, final int oldHeight);
 }

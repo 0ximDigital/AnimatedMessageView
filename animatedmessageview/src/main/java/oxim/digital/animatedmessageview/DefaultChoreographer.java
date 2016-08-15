@@ -17,7 +17,6 @@ public final class DefaultChoreographer extends Choreographer {
     private int halfHeight;
     private int halfWidth;
 
-    private int fullStrokeWidth;
     private int strokeWidth;
     private int lineLeftX;
     private int lineRightX;
@@ -36,14 +35,14 @@ public final class DefaultChoreographer extends Choreographer {
 
     @Override
     protected void show() {
-        initialRevealAnimator = ValueAnimator.ofInt(0, halfHeight);
+        initialRevealAnimator = ValueAnimator.ofInt(0, halfHeight * 2);
         initialRevealAnimator.addUpdateListener(initialRevealAnimatorListener);
         initialRevealAnimator.addListener(initialRevealAnimatorListener);
         initialRevealAnimator.setInterpolator(new DecelerateInterpolator());
         initialRevealAnimator.setDuration(DURATION);
         initialRevealAnimator.start();
 
-        horizontalRevealAnimator = ValueAnimator.ofInt(0, halfWidth - fullStrokeWidth);
+        horizontalRevealAnimator = ValueAnimator.ofInt(0, halfWidth - halfHeight);
         horizontalRevealAnimator.addUpdateListener(horizontalRevealAnimatorListener);
         horizontalRevealAnimator.setDuration(DURATION);
         horizontalRevealAnimator.setInterpolator(new DecelerateInterpolator());
@@ -55,7 +54,7 @@ public final class DefaultChoreographer extends Choreographer {
     }
 
     @Override
-    protected void onDraw(final Canvas canvas) {
+    protected void draw(final Canvas canvas) {
         backgroundPaint.setStrokeWidth(strokeWidth);
 
         canvas.drawLine(lineLeftX, halfHeight, lineRightX, halfHeight, backgroundPaint);
@@ -67,7 +66,6 @@ public final class DefaultChoreographer extends Choreographer {
         this.halfWidth = newWidth / 2;
         this.lineLeftX = halfWidth;
         this.lineRightX = halfWidth + 1;
-        this.fullStrokeWidth = halfHeight;
     }
 
     private final class InitialRevealAnimatorListener extends AnimatorListenerAdapter implements ValueAnimator.AnimatorUpdateListener {
