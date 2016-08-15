@@ -9,12 +9,12 @@
     <oxim.digital.animatedmessageview.AnimatedMessageView
         android:id="@+id/animated_message_view"
         android:layout_width="wrap_content"
-        android:layout_height="60dp"
+        android:layout_height="50dp"
         android:layout_gravity="center"
         app:backgroundColor="@color/colorPrimary"
         app:iconPadding="8dp"
         app:message="Success"
-        app:messageTextSize="8sp"
+        app:messageTextSize="6sp"
         app:viewIcon="@drawable/ic_check"/>
 
     <Button

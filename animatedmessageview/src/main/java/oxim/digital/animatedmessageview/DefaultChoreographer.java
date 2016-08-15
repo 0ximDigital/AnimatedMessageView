@@ -10,7 +10,10 @@ import android.view.animation.DecelerateInterpolator;
 
 public final class DefaultChoreographer extends Choreographer {
 
-    public static final int DURATION = 500;
+    public static final int DURATION = 600;
+
+    public static final float TRANSPARENT = 0.0f;
+    public static final float OPAQUE = 1.0f;
 
     private final Paint backgroundPaint;
 
@@ -31,6 +34,9 @@ public final class DefaultChoreographer extends Choreographer {
         super(animatedMessageView);
         this.backgroundPaint = backgroundPaint;
         this.backgroundPaint.setStrokeCap(Paint.Cap.ROUND);
+
+        messageView.setAlpha(TRANSPARENT);
+        iconView.setAlpha(TRANSPARENT);
     }
 
     @Override
@@ -39,7 +45,7 @@ public final class DefaultChoreographer extends Choreographer {
         initialRevealAnimator.addUpdateListener(initialRevealAnimatorListener);
         initialRevealAnimator.addListener(initialRevealAnimatorListener);
         initialRevealAnimator.setInterpolator(new DecelerateInterpolator());
-        initialRevealAnimator.setDuration(DURATION);
+        initialRevealAnimator.setDuration(DURATION / 2);
         initialRevealAnimator.start();
 
         horizontalRevealAnimator = ValueAnimator.ofInt(0, halfWidth - halfHeight);
@@ -82,6 +88,32 @@ public final class DefaultChoreographer extends Choreographer {
         @Override
         public void onAnimationEnd(final Animator animation) {
             horizontalRevealAnimator.start();
+
+            iconView.animate()
+                    .xBy(100)
+                    .alpha(TRANSPARENT)
+                    .setDuration(0)
+                    .start();
+
+            messageView.animate()
+                       .xBy(-100)
+                       .alpha(TRANSPARENT)
+                       .setDuration(0)
+                       .start();
+
+            iconView.animate()
+                    .setInterpolator(new DecelerateInterpolator())
+                    .alphaBy(OPAQUE)
+                    .xBy(-100)
+                    .setDuration(DURATION)
+                    .start();
+
+            messageView.animate()
+                       .setInterpolator(new DecelerateInterpolator())
+                       .alphaBy(OPAQUE)
+                       .xBy(100)
+                       .setDuration(DURATION)
+                       .start();
         }
     }
 

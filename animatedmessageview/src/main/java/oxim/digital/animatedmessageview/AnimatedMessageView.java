@@ -64,7 +64,7 @@ public final class AnimatedMessageView extends FrameLayout {
         this.messageTextView.setTextColor(messageTextColor);
         this.messageTextView.setTextSize(messageTextSize);
         this.messageTextView.setText(message);
-        this.messageTextView.setPadding(0, 0, (int) iconPadding, 0);
+        this.messageTextView.setPadding(0, 0, (int) iconPadding * 2, 0);
     }
 
     private void parseAttributes(final AttributeSet attrs, final int defStyleAttrs) {
