@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
+import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -29,6 +30,7 @@ public final class CircleIconView extends View {
     private Bitmap maskBitmap;
 
     private boolean cropImage = true;
+    private int iconPadding;
 
     public CircleIconView(final Context context) {
         this(context, null);
@@ -84,7 +86,7 @@ public final class CircleIconView extends View {
     @Override
     protected void onSizeChanged(final int newWidth, final int newHeight, final int oldWidth, final int oldHeight) {
         calculateIconSrcRect();
-        iconDestRect.set(0, 0, newWidth, newHeight);
+        iconDestRect.set(iconPadding, iconPadding, newWidth - iconPadding, newHeight - iconPadding);
 
         createMaskBitmap(newHeight);
 
@@ -99,7 +101,10 @@ public final class CircleIconView extends View {
         canvas.drawCircle(radius, radius, radius, fillPaint);
     }
 
-    public void setIcon(final Bitmap icon) {
+    public void setIcon(@Nullable final Bitmap icon) {
+        if (icon == null) {
+            return;
+        }
         this.icon = Bitmap.createBitmap(icon);
         calculateIconSrcRect();
         invalidate();
@@ -113,5 +118,9 @@ public final class CircleIconView extends View {
         if (icon != null) {
             iconSrcRect.set(0, 0, icon.getWidth(), icon.getHeight());
         }
+    }
+
+    public void setIconPadding(final int iconPadding) {
+        this.iconPadding = iconPadding;
     }
 }

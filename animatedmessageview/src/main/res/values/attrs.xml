@@ -3,7 +3,11 @@
     <declare-styleable name="AnimatedMessageView">
         <attr name="backgroundColor" format="color"/>
         <attr name="message" format="string"/>
-        <attr name="viewIcon" format="integer"/>
+        <attr name="viewIcon" format="reference"/>
+        <attr name="iconPadding" format="dimension"/>
+        <attr name="cropIconToCircle" format="boolean"/>
+        <attr name="messageTextSize" format="dimension"/>
+        <attr name="messageTextColor" format="color"/>
     </declare-styleable>
 
 </resources>
