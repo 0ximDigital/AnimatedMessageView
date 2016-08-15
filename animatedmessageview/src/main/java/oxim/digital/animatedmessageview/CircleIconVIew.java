@@ -28,6 +28,8 @@ public final class CircleIconView extends View {
     private Bitmap icon = null;
     private Bitmap maskBitmap;
 
+    private boolean cropImage = true;
+
     public CircleIconView(final Context context) {
         this(context, null);
     }
@@ -61,8 +63,10 @@ public final class CircleIconView extends View {
             canvas.drawBitmap(icon, iconSrcRect, iconDestRect, null);
         }
 
-        fillPaint.setXfermode(iconMode);
-        canvas.drawBitmap(maskBitmap, maskSrcRect, maskDestRect, fillPaint);
+        if (cropImage) {
+            fillPaint.setXfermode(iconMode);
+            canvas.drawBitmap(maskBitmap, maskSrcRect, maskDestRect, fillPaint);
+        }
 
         canvas.restoreToCount(saveCount);
         fillPaint.setXfermode(null);
@@ -99,6 +103,10 @@ public final class CircleIconView extends View {
         this.icon = Bitmap.createBitmap(icon);
         calculateIconSrcRect();
         invalidate();
+    }
+
+    public void cropImageToCircle(final boolean cropImage) {
+        this.cropImage = cropImage;
     }
 
     private void calculateIconSrcRect() {

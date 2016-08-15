@@ -6,10 +6,17 @@
     android:layout_height="match_parent"
     tools:context="oxim.digital.demo.MainActivity">
 
-    <oxim.digital.animatedmessageview.CircleIconView
-        android:id="@+id/test_circle_icon"
-        android:layout_gravity="center"
+    <oxim.digital.animatedmessageview.AnimatedMessageView
+        android:id="@+id/animated_message_view"
         android:layout_width="200dp"
-        android:layout_height="300dp"/>
+        android:layout_height="100dp"
+        android:layout_gravity="center"/>
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:text="DO STUFF"/>
 
 </FrameLayout>

@@ -1,22 +1,32 @@
 package oxim.digital.demo;
 
-import android.graphics.BitmapFactory;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
-import oxim.digital.animatedmessageview.CircleIconView;
+import oxim.digital.animatedmessageview.AnimatedMessageView;
 import oxim.digital.animatedmessageview.demo.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private CircleIconView circleIconView;
+    private AnimatedMessageView animatedMessageView;
+    private Button testButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        this.circleIconView = (CircleIconView) findViewById(R.id.test_circle_icon);
-        this.circleIconView.setIcon(BitmapFactory.decodeResource(getResources(), R.drawable.black_space_invader));
+        this.animatedMessageView = (AnimatedMessageView) findViewById(R.id.animated_message_view);
+        this.testButton = (Button) findViewById(R.id.button);
+
+        this.testButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(final View v) {
+                animatedMessageView.show();
+            }
+        });
     }
 }

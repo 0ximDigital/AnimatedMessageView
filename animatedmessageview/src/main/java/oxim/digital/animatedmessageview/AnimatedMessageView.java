@@ -29,13 +29,15 @@ public final class AnimatedMessageView extends FrameLayout {
     public AnimatedMessageView(final Context context, final AttributeSet attrs, final int defStyleAttr) {
         super(context, attrs, defStyleAttr);
 
-        backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        backgroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        backgroundPaint.setColor(Color.BLACK);
+        this.backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        this.backgroundPaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        this.backgroundPaint.setColor(Color.BLACK);
 
         if (attrs != null) {
             parseAttributes(attrs, defStyleAttr);
         }
+
+        this.choreographer = new DefaultChoreographer(this, backgroundPaint);
     }
 
     private void parseAttributes(final AttributeSet attrs, final int defStyleAttrs) {
@@ -52,6 +54,7 @@ public final class AnimatedMessageView extends FrameLayout {
 
     @Override
     protected void onMeasure(final int widthMeasureSpec, final int heightMeasureSpec) {
+        // TODO - do something with this
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
         final int smallerSize = Math.min(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.getSize(heightMeasureSpec));
@@ -81,8 +84,16 @@ public final class AnimatedMessageView extends FrameLayout {
     }
 
     @Override
-    protected void onDraw(final Canvas canvas) {
+    protected void dispatchDraw(final Canvas canvas) {
         choreographer.onDraw(canvas);
-        super.onDraw(canvas);
+        super.dispatchDraw(canvas);
+    }
+
+    public void show() {
+        choreographer.show();
+    }
+
+    public void hide() {
+        choreographer.hide();
     }
 }
