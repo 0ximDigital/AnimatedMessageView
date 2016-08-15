@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="AnimatedMessageView">
+        <attr name="backgroundColor" format="color"/>
+        <attr name="message" format="string"/>
+        <attr name="viewIcon" format="integer"/>
+    </declare-styleable>
+
+</resources>
