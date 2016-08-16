@@ -8,7 +8,7 @@
 
     <oxim.digital.animatedmessageview.AnimatedMessageView
         android:id="@+id/animated_message_view"
-        android:layout_width="200dp"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_gravity="center"
         app:backgroundColor="@color/colorPrimary"
