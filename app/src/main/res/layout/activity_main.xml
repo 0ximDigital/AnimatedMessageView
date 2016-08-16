@@ -11,6 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:layout_gravity="center"
+        android:elevation="4dp"
         app:backgroundColor="@color/colorPrimary"
         app:iconPadding="8dp"
         app:message="Success"

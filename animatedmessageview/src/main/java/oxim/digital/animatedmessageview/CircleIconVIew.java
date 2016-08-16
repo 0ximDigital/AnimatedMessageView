@@ -59,9 +59,8 @@ public final class CircleIconView extends View {
 
         int saveCount = canvas.saveLayer(0, 0, getWidth(), getHeight(), null, Canvas.ALL_SAVE_FLAG);
 
-        canvas.drawBitmap(icon, iconSrcRect, iconDestRect, fillPaint);
-
         if (icon != null) {
+            canvas.drawBitmap(icon, iconSrcRect, iconDestRect, fillPaint);
             canvas.drawBitmap(icon, iconSrcRect, iconDestRect, null);
         }
 

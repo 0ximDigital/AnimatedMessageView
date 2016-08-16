@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 public final class AnimatedMessageView extends FrameLayout {
 
-    public static final float DEFAULT_ICON_PADDING = 4.f;
+    public static final int DEFAULT_ICON_PADDING = 4;
     public static final float DEFAULT_MESSAGE_TEXT_SIZE = 16.f;
 
     private final Paint backgroundPaint;
@@ -28,7 +28,7 @@ public final class AnimatedMessageView extends FrameLayout {
     int icon;
     private String message = "";
 
-    private float iconPadding = DEFAULT_ICON_PADDING;
+    private int iconPadding = DEFAULT_ICON_PADDING;
     private boolean cropIconToCircle = true;
     private float messageTextSize = DEFAULT_MESSAGE_TEXT_SIZE;
     private int messageTextColor;
@@ -58,13 +58,13 @@ public final class AnimatedMessageView extends FrameLayout {
         this.circleIconView = (CircleIconView) findViewById(R.id.icon_view);
         this.circleIconView.setIcon(BitmapFactory.decodeResource(getResources(), icon));
         this.circleIconView.cropImageToCircle(cropIconToCircle);
-        this.circleIconView.setIconPadding((int) iconPadding);
+        this.circleIconView.setIconPadding(iconPadding);
 
         this.messageTextView = (TextView) findViewById(R.id.message_view);
         this.messageTextView.setTextColor(messageTextColor);
         this.messageTextView.setTextSize(messageTextSize);
         this.messageTextView.setText(message);
-        this.messageTextView.setPadding(0, 0, (int) iconPadding * 2, 0);
+        this.messageTextView.setPadding(0, 0, iconPadding * 2, 0);
     }
 
     private void parseAttributes(final AttributeSet attrs, final int defStyleAttrs) {
@@ -74,7 +74,7 @@ public final class AnimatedMessageView extends FrameLayout {
             this.message = (message != null) ? message : "";
             this.icon = typedArray.getResourceId(R.styleable.AnimatedMessageView_viewIcon, 0);
             this.backgroundPaint.setColor(typedArray.getColor(R.styleable.AnimatedMessageView_backgroundColor, Color.BLACK));
-            this.iconPadding = typedArray.getDimension(R.styleable.AnimatedMessageView_iconPadding, DEFAULT_ICON_PADDING);
+            this.iconPadding = (int) typedArray.getDimension(R.styleable.AnimatedMessageView_iconPadding, DEFAULT_ICON_PADDING);
             this.cropIconToCircle = typedArray.getBoolean(R.styleable.AnimatedMessageView_cropIconToCircle, true);
             this.messageTextSize = typedArray.getDimension(R.styleable.AnimatedMessageView_messageTextSize, DEFAULT_MESSAGE_TEXT_SIZE);
             this.messageTextColor = typedArray.getColor(R.styleable.AnimatedMessageView_messageTextColor, Color.WHITE);
