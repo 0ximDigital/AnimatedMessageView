@@ -35,17 +35,27 @@ public final class DefaultChoreographer extends Choreographer {
     private final ReverseInitialRevealAnimatorListener reverseInitialRevealAnimatorListener = new ReverseInitialRevealAnimatorListener();
     private final ReverseHorizontalRevealAnimatorListener reverseHorizontalRevealAnimatorListener = new ReverseHorizontalRevealAnimatorListener();
 
+    private boolean isShown;
+
     public DefaultChoreographer(@NonNull final AnimatedMessageView animatedMessageView, final Paint backgroundPaint) {
         super(animatedMessageView);
         this.backgroundPaint = backgroundPaint;
         this.backgroundPaint.setStrokeCap(Paint.Cap.ROUND);
+        this.isShown = false;
 
-        messageView.setAlpha(TRANSPARENT);
-        iconView.setAlpha(TRANSPARENT);
+        prepareViews();
+    }
+
+    private void prepareViews() {
+        iconView.animate().xBy(DEFAULT_X_OFFSET).alpha(TRANSPARENT).setDuration(0).start();
+        messageView.animate().xBy(-DEFAULT_X_OFFSET).alpha(TRANSPARENT).setDuration(0).start();
     }
 
     @Override
     protected void show() {
+        if (isAnimating() || isShown) {
+            return;
+        }
         initialRevealAnimator = ValueAnimator.ofInt(0, halfHeight * 2);
         initialRevealAnimator.addUpdateListener(initialRevealAnimatorListener);
         initialRevealAnimator.addListener(initialRevealAnimatorListener);
@@ -55,12 +65,16 @@ public final class DefaultChoreographer extends Choreographer {
 
         horizontalRevealAnimator = ValueAnimator.ofInt(0, halfWidth - halfHeight);
         horizontalRevealAnimator.addUpdateListener(horizontalRevealAnimatorListener);
+        horizontalRevealAnimator.addListener(horizontalRevealAnimatorListener);
         horizontalRevealAnimator.setDuration(DURATION);
         horizontalRevealAnimator.setInterpolator(new DecelerateInterpolator());
     }
 
     @Override
     protected void hide() {
+        if (isAnimating() || !isShown) {
+            return;
+        }
         horizontalRevealAnimator.removeAllListeners();
         horizontalRevealAnimator.removeAllUpdateListeners();
         horizontalRevealAnimator.addUpdateListener(reverseHorizontalRevealAnimatorListener);
@@ -72,6 +86,11 @@ public final class DefaultChoreographer extends Choreographer {
         initialRevealAnimator.removeAllListeners();
         initialRevealAnimator.setInterpolator(new AccelerateInterpolator());
         initialRevealAnimator.addUpdateListener(reverseInitialRevealAnimatorListener);
+        initialRevealAnimator.addListener(reverseInitialRevealAnimatorListener);
+    }
+
+    private boolean isAnimating() {
+        return ((initialRevealAnimator != null && initialRevealAnimator.isRunning()) || (horizontalRevealAnimator != null && horizontalRevealAnimator.isRunning()));
     }
 
     @Override
@@ -102,14 +121,8 @@ public final class DefaultChoreographer extends Choreographer {
 
         @Override
         public void onAnimationEnd(final Animator animation) {
-            preAnimateViews();
             horizontalRevealAnimator.start();
             animateViews();
-        }
-
-        private void preAnimateViews() {
-            iconView.animate().xBy(DEFAULT_X_OFFSET).alpha(TRANSPARENT).setDuration(0).start();
-            messageView.animate().xBy(-DEFAULT_X_OFFSET).alpha(TRANSPARENT).setDuration(0).start();
         }
 
         private void animateViews() {
@@ -118,7 +131,7 @@ public final class DefaultChoreographer extends Choreographer {
         }
     }
 
-    private final class HorizontalRevealAnimatorListener implements ValueAnimator.AnimatorUpdateListener {
+    private final class HorizontalRevealAnimatorListener extends AnimatorListenerAdapter implements ValueAnimator.AnimatorUpdateListener {
 
         @Override
         public void onAnimationUpdate(final ValueAnimator animation) {
@@ -133,9 +146,14 @@ public final class DefaultChoreographer extends Choreographer {
                 view.invalidate();
             }
         }
+
+        @Override
+        public void onAnimationEnd(final Animator animation) {
+            isShown = true;
+        }
     }
 
-    private class ReverseInitialRevealAnimatorListener implements ValueAnimator.AnimatorUpdateListener {
+    private class ReverseInitialRevealAnimatorListener extends AnimatorListenerAdapter implements ValueAnimator.AnimatorUpdateListener {
 
         @Override
         public void onAnimationUpdate(final ValueAnimator animation) {
@@ -144,6 +162,11 @@ public final class DefaultChoreographer extends Choreographer {
             if (view != null) {
                 view.invalidate();
             }
+        }
+
+        @Override
+        public void onAnimationEnd(final Animator animation) {
+            isShown = false;
         }
     }
 
